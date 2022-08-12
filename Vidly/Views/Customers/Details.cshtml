@@ -1,5 +1,6 @@
-﻿@{
-    ViewData["Title"] = "Details";
+﻿@model Customer
+@{
+    ViewData["Title"] = $"Details - {Model.Name}";
 }
 
-<h2>customer's name</h2>
+<h2>@Model.Name</h2>

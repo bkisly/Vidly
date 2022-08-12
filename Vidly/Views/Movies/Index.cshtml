@@ -1,7 +1,29 @@
-﻿@{
+﻿@model IEnumerable<Movie>
+@{
     ViewData["Title"] = "Movies";
 }
 
 <h2>Movies</h2>
 
-<p>There are no movies yet.</p>
+@if(Model.Any())
+{
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Title</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(Movie movie in Model)
+            {
+                <tr>
+                    <td>@movie.Title</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>There are no movies yet.</p>
+}
