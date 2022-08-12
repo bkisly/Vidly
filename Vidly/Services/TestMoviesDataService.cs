@@ -12,5 +12,11 @@ namespace Vidly.Services
                 new() { Id = 2, Title = "Wall-E" }
             });
         }
+
+        public async Task<Movie?> GetItemByIdAsync(int id)
+        {
+            var items = await GetItemsAsync();
+            return items.FirstOrDefault(movie => movie.Id == id);
+        }
     }
 }

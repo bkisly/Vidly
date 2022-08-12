@@ -6,9 +6,9 @@ namespace Vidly.Controllers
 {
     public class CustomersController : Controller
     {
-        private readonly ICustomerDataService _service;
+        private readonly IDataService<Customer> _service;
 
-        public CustomersController(ICustomerDataService service)
+        public CustomersController(IDataService<Customer> service)
         {
             _service = service;
         }
@@ -20,7 +20,7 @@ namespace Vidly.Controllers
 
         public async Task<IActionResult> Details(int id = 1)
         {
-            var customer = await _service.GetCustomerByIdAsync(id);
+            var customer = await _service.GetItemByIdAsync(id);
             return customer != null ? View(customer) : NotFound();
         }
     }

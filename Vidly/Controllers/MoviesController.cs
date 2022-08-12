@@ -17,5 +17,11 @@ namespace Vidly.Controllers
         {
             return View(await _service.GetItemsAsync());
         }
+
+        public async Task<IActionResult> Details(int id)
+        {
+            var movie = await _service.GetItemByIdAsync(id);
+            return movie != null ? View(movie) : NotFound();
+        }
     }
 }

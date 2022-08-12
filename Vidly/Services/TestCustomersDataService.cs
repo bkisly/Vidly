@@ -2,7 +2,7 @@
 
 namespace Vidly.Services
 {
-    public class TestCustomersDataService : ICustomerDataService
+    public class TestCustomersDataService : IDataService<Customer>
     {
         public Task<Customer[]> GetItemsAsync()
         {
@@ -12,7 +12,7 @@ namespace Vidly.Services
                 new() { Id = 2, Name = "Margaret Smith" }
             });
         }
-        public async Task<Customer?> GetCustomerByIdAsync(int id)
+        public async Task<Customer?> GetItemByIdAsync(int id)
         {
             var items = await GetItemsAsync();
             return items.FirstOrDefault(x => x.Id == id);

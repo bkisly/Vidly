@@ -1,0 +1,13 @@
+﻿@model Movie
+@{
+    ViewData["Title"] = $"Details - {Model.Title}";
+}
+
+<h2>@Model.Title</h2>
+
+<ul>
+    <li>Genre: @Model.Genre.Name</li>
+    <li>Release date: @Model.ReleaseDate.ToLongDateString()</li>
+    <li>Date added: @Model.DateAdded.ToLongDateString()</li>
+    <li>Number in stock: @Model.NumberInStock</li>
+</ul>
