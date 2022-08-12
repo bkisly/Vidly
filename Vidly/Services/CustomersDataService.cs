@@ -1,5 +1,6 @@
 ﻿using Vidly.Models;
 using Vidly.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Vidly.Services
 {
@@ -14,12 +15,12 @@ namespace Vidly.Services
 
         public Task<Customer?> GetCustomerByIdAsync(int id)
         {
-            return Task.FromResult(_context.Customers.FirstOrDefault(c => c.Id == id));
+            return Task.FromResult(_context.Customers.Include(c => c.MembershipType).FirstOrDefault(c => c.Id == id));
         }
 
         public Task<Customer[]> GetItemsAsync()
         {
-            return Task.FromResult(_context.Customers.ToArray());
+            return Task.FromResult(_context.Customers.Include(c => c.MembershipType).ToArray());
         }
     }
 }
