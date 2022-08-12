@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Vidly.Models;
 
 namespace Vidly.Controllers
 {
@@ -6,7 +7,16 @@ namespace Vidly.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            return View(GetMovies());
+        }
+
+        private static IEnumerable<Movie> GetMovies()
+        {
+            return new List<Movie>
+            {
+                new() { Id = 1, Title = "Shrek!" },
+                new() { Id = 2, Title = "Wall-E" }
+            };
         }
     }
 }
