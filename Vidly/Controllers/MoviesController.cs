@@ -1,22 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Vidly.Models;
+using Vidly.Services;
 
 namespace Vidly.Controllers
 {
     public class MoviesController : Controller
     {
-        public IActionResult Index()
+        private readonly IDataService<Movie> _service;
+
+        public MoviesController(IDataService<Movie> service)
         {
-            return View(GetMovies());
+            _service = service;
         }
 
-        private static IEnumerable<Movie> GetMovies()
+        public async Task<IActionResult> Index()
         {
-            return new List<Movie>
-            {
-                new() { Id = 1, Title = "Shrek!" },
-                new() { Id = 2, Title = "Wall-E" }
-            };
+            return View(await _service.GetItemsAsync());
         }
     }
 }

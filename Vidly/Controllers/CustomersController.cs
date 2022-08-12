@@ -1,28 +1,27 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Vidly.Models;
+using Vidly.Services;
 
 namespace Vidly.Controllers
 {
     public class CustomersController : Controller
     {
-        public IActionResult Index()
+        private readonly ICustomerDataService _service;
+
+        public CustomersController(ICustomerDataService service)
         {
-            return View(GetCustomers());
+            _service = service;
         }
 
-        public IActionResult Details(int id = 1)
+        public async Task<IActionResult> Index()
         {
-            IEnumerable<Customer> filteredCustomers = GetCustomers().Where(c => c.Id == id);
-            return filteredCustomers.Any() ? View(filteredCustomers.First()) : NotFound();
+            return View(await _service.GetItemsAsync());
         }
 
-        private static IEnumerable<Customer> GetCustomers()
+        public async Task<IActionResult> Details(int id = 1)
         {
-            return new List<Customer>
-            {
-                new() { Id = 1, Name = "John McCarther" },
-                new() { Id = 2, Name = "Margaret Smith" }
-            };
+            var customer = await _service.GetCustomerByIdAsync(id);
+            return customer != null ? View(customer) : NotFound();
         }
     }
 }
