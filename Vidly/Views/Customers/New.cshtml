@@ -1,0 +1,22 @@
+﻿@model Customer
+@{
+    ViewData["Title"] = "New customer";
+}
+
+<h2>New customer</h2>
+
+@using(Html.BeginForm("Create", "Customers"))
+{
+    <div class="form-group form-floating form-vertmargin-1">
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "Name" })
+        @Html.LabelFor(m => m.Name)
+    </div>
+    <div class="form-group form-floating form-vertmargin-1">
+        @Html.TextBoxFor(m => m.BirthDate, new { @class = "form-control", placeholder = "Date of birth"})
+        @Html.LabelFor(m => m.BirthDate)
+    </div>
+    <div class="form-group form-vertmargin-1">
+        @Html.CheckBoxFor(m => m.IsSubscribedToNewsletter, new { @class = "form-check-input" })
+        @Html.LabelFor(m => m.IsSubscribedToNewsletter)
+    </div>
+}

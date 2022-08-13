@@ -1,3 +1,5 @@
+/*Auto-generated properties*/
+
 html {
   font-size: 14px;
 }
@@ -15,4 +17,16 @@ html {
 
 body {
   margin-bottom: 60px;
+}
+
+/*Custom adjustments for Bootstrap forms*/
+
+.form-vertmargin-1 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.form-vertmargin-2 {
+    margin-top: 10px;
+    margin-bottom: 10px;
 }

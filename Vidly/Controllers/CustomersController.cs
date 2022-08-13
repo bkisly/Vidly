@@ -23,5 +23,10 @@ namespace Vidly.Controllers
             var customer = await _service.GetItemByIdAsync(id);
             return customer != null ? View(customer) : NotFound();
         }
+
+        public IActionResult New()
+        {
+            return View();
+        }
     }
 }
