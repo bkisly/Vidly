@@ -1,9 +1,10 @@
 ﻿@model Vidly.ViewModels.NewCustomerViewModel
 @{
-    ViewData["Title"] = "New customer";
+    string title = Model.Customer == null ? "New customer" : "Edit customer";
+    ViewData["Title"] = title;
 }
 
-<h2>New customer</h2>
+<h2>@title</h2>
 
 @using(Html.BeginForm("Create", "Customers"))
 {
@@ -12,12 +13,8 @@
         @Html.LabelFor(m => m.Customer.Name)
     </div>
     <div class="form-group form-floating form-vertmargin-1">
-        @Html.TextBoxFor(m => m.Customer.BirthDate, new { @class = "form-control", placeholder = "Date of birth"})
+        @Html.TextBoxFor(m => m.Customer.BirthDate, "{0:dd MMMM yyyy}", new { @class = "form-control", placeholder = "Date of birth"})
         @Html.LabelFor(m => m.Customer.BirthDate)
-    </div>
-    <div class="form-group form-vertmargin-1">
-        @Html.CheckBoxFor(m => m.Customer.IsSubscribedToNewsletter, new { @class = "form-check-input" })
-        @Html.LabelFor(m => m.Customer.IsSubscribedToNewsletter)
     </div>
     <div class="form-group form-vertmargin-1">
         @Html.LabelFor(m => m.Customer.MembershipTypeId, new { @class = "form-vertmargin-2" })
@@ -27,4 +24,10 @@
             "Select membership type...", 
             new { @class = "form-select" })
     </div>
+    <div class="form-group form-vertmargin-1">
+        @Html.CheckBoxFor(m => m.Customer.IsSubscribedToNewsletter, new { @class = "form-check-input" })
+        @Html.LabelFor(m => m.Customer.IsSubscribedToNewsletter)
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
 }

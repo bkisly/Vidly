@@ -13,6 +13,12 @@ namespace Vidly.Services
             _context = context;
         }
 
+        public async Task AddItemAsync(Customer item)
+        {
+            await _context.AddAsync(item);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<Customer?> GetItemByIdAsync(int id)
         {
             return await _context.Customers.Include(c => c.MembershipType).FirstOrDefaultAsync(c => c.Id == id);

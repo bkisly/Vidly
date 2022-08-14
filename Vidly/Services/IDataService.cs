@@ -8,7 +8,12 @@ namespace Vidly.Services
         public Task<T?> GetItemByIdAsync(int id);
     }
 
-    public interface ICustomersDataService : IDataService<Customer>
+    public interface IModifyableDataService<T> : IDataService<T>
+    {
+        public Task AddItemAsync(T item);
+    }
+
+    public interface ICustomersDataService : IModifyableDataService<Customer>
     {
         public Task<MembershipType[]> GetMembershipTypesAsync();
     }
