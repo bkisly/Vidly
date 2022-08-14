@@ -4,6 +4,7 @@
 }
 
 <h2>Movies</h2>
+@Html.ActionLink("New movie", "New", new { }, new { @class = "btn btn-primary form-vertmargin-1" })
 
 @if(Model.Any())
 {
@@ -18,7 +19,7 @@
             @foreach(Movie movie in Model)
             {
                 <tr>
-                    <td>@Html.ActionLink(movie.Title, "Details", new { id = movie.Id })</td>
+                    <td>@Html.ActionLink(movie.Title, "Edit", new { id = movie.Id })</td>
                     <td>@movie.Genre.Name</td>
                 </tr>
             }

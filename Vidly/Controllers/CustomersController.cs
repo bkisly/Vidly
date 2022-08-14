@@ -44,7 +44,7 @@ namespace Vidly.Controllers
         public async Task<IActionResult> Save(Customer customer)
         {
             if (customer.Id == 0) await _service.AddItemAsync(customer);
-            else await _service.UpdateCustomerAsync(customer);
+            else await _service.UpdateItemAsync(customer);
             return RedirectToAction("Index");
         }
     }
