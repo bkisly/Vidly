@@ -15,6 +15,7 @@ namespace Vidly.Services
 
     public interface ICustomersDataService : IModifyableDataService<Customer>
     {
+        public Task UpdateCustomerAsync(Customer newCustomerData);
         public Task<MembershipType[]> GetMembershipTypesAsync();
     }
 }

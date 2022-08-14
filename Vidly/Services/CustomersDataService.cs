@@ -33,5 +33,17 @@ namespace Vidly.Services
         {
             return await _context.MembershipTypes.ToArrayAsync();
         }
+
+        public async Task UpdateCustomerAsync(Customer newCustomerData)
+        {
+            Customer customerToUpdate = await _context.Customers.SingleAsync(c => c.Id == newCustomerData.Id);
+
+            customerToUpdate.Name = newCustomerData.Name;
+            customerToUpdate.BirthDate = newCustomerData.BirthDate;
+            customerToUpdate.IsSubscribedToNewsletter = newCustomerData.IsSubscribedToNewsletter;
+            customerToUpdate.MembershipTypeId = newCustomerData.MembershipTypeId;
+
+            await _context.SaveChangesAsync();
+        }
     }
 }

@@ -40,10 +40,11 @@ namespace Vidly.Controllers
             return View("CustomerForm", viewModel);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Create(Customer customer)
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<IActionResult> Save(Customer customer)
         {
-            await _service.AddItemAsync(customer);
+            if (customer.Id == 0) await _service.AddItemAsync(customer);
+            else await _service.UpdateCustomerAsync(customer);
             return RedirectToAction("Index");
         }
     }
