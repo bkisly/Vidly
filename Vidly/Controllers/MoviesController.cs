@@ -35,5 +35,14 @@ namespace Vidly.Controllers
             var movie = await _service.GetItemByIdAsync(id);
             return movie != null ? View("MovieForm", new MovieFormViewModel { Movie = movie, Genres = await _service.GetGenresAsync() }) : NotFound();
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Save(Movie movie)
+        {
+            if (movie.Id == 0) await _service.AddItemAsync(movie);
+            else await _service.UpdateItemAsync(movie);
+
+            return RedirectToAction("Index");
+        }
     }
 }

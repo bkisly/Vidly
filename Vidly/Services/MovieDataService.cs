@@ -13,9 +13,10 @@ namespace Vidly.Services
             _context = context;
         }
 
-        public Task AddItemAsync(Movie item)
+        public async Task AddItemAsync(Movie item)
         {
-            throw new NotImplementedException();
+            await _context.Movies.AddAsync(item);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<Genre[]> GetGenresAsync()
@@ -33,9 +34,16 @@ namespace Vidly.Services
             return await _context.Movies.Include(m => m.Genre).ToArrayAsync();
         }
 
-        public Task UpdateItemAsync(Movie newMovieData)
+        public async Task UpdateItemAsync(Movie newMovieData)
         {
-            throw new NotImplementedException();
+            Movie movieToUpdate = _context.Movies.Single(m => m.Id == newMovieData.Id);
+
+            movieToUpdate.Title = newMovieData.Title;
+            movieToUpdate.ReleaseDate = newMovieData.ReleaseDate;
+            movieToUpdate.GenreId = newMovieData.GenreId;
+            movieToUpdate.NumberInStock = newMovieData.NumberInStock;
+
+            await _context.SaveChangesAsync();
         }
     }
 }
