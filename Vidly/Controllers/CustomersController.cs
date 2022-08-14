@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Vidly.Models;
+using Vidly.ViewModels;
 using Vidly.Services;
 
 namespace Vidly.Controllers
 {
     public class CustomersController : Controller
     {
-        private readonly IDataService<Customer> _service;
+        private readonly ICustomersDataService _service;
 
-        public CustomersController(IDataService<Customer> service)
+        public CustomersController(ICustomersDataService service)
         {
             _service = service;
         }
@@ -24,9 +24,10 @@ namespace Vidly.Controllers
             return customer != null ? View(customer) : NotFound();
         }
 
-        public IActionResult New()
+        public async Task<IActionResult> New()
         {
-            return View();
+            var membershipTypes = await _service.GetMembershipTypesAsync();
+            return View(new NewCustomerViewModel { MembershipTypes = membershipTypes });
         }
     }
 }

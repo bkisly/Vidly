@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Vidly.Services
 {
-    public class CustomersDataService : IDataService<Customer>
+    public class CustomersDataService : ICustomersDataService
     {
         private readonly ApplicationDbContext _context;
 
@@ -21,6 +21,11 @@ namespace Vidly.Services
         public async Task<Customer[]> GetItemsAsync()
         {
             return await _context.Customers.Include(c => c.MembershipType).ToArrayAsync();
+        }
+
+        public async Task<MembershipType[]> GetMembershipTypesAsync()
+        {
+            return await _context.MembershipTypes.ToArrayAsync();
         }
     }
 }
