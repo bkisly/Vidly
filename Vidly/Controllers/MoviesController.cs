@@ -44,5 +44,12 @@ namespace Vidly.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _service.DeleteItemAsync(id);
+            return RedirectToAction("Index");
+        }
     }
 }

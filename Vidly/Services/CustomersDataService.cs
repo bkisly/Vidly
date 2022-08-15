@@ -19,6 +19,12 @@ namespace Vidly.Services
             await _context.SaveChangesAsync();
         }
 
+        public async Task DeleteItemAsync(int id)
+        {
+            _context.Customers.Remove(await _context.Customers.SingleAsync(c => c.Id == id));
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<Customer?> GetItemByIdAsync(int id)
         {
             return await _context.Customers.Include(c => c.MembershipType).FirstOrDefaultAsync(c => c.Id == id);

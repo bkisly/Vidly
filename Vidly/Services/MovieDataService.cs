@@ -19,6 +19,12 @@ namespace Vidly.Services
             await _context.SaveChangesAsync();
         }
 
+        public async Task DeleteItemAsync(int id)
+        {
+            _context.Movies.Remove(await _context.Movies.SingleAsync(m => m.Id == id));
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<Genre[]> GetGenresAsync()
         {
             return await _context.Genres.ToArrayAsync();
