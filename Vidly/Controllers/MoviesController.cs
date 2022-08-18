@@ -42,14 +42,14 @@ namespace Vidly.Controllers
             if (movie.Id == 0) await _service.AddItemAsync(movie);
             else await _service.UpdateItemAsync(movie);
 
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
             await _service.DeleteItemAsync(id);
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
     }
 }

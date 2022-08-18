@@ -1,6 +1,6 @@
-﻿@model Vidly.ViewModels.NewCustomerViewModel
+﻿@model Vidly.ViewModels.CustomerFormViewModel
 @{
-    string title = Model.Customer == null ? "New customer" : "Edit customer";
+    string title = Model.Customer.Id == 0 ? "New customer" : "Edit customer";
     ViewData["Title"] = title;
 }
 
@@ -11,10 +11,12 @@
     <div class="form-group form-floating form-vertmargin-1">
         @Html.TextBoxFor(m => m.Customer.Name, new { @class = "form-control", placeholder = "Name" })
         @Html.LabelFor(m => m.Customer.Name)
+        @Html.ValidationMessageFor(m => m.Customer.Name)
     </div>
     <div class="form-group form-floating form-vertmargin-1">
         @Html.TextBoxFor(m => m.Customer.BirthDate, "{0:dd MMMM yyyy}", new { @class = "form-control", placeholder = "Date of birth"})
         @Html.LabelFor(m => m.Customer.BirthDate)
+        @Html.ValidationMessageFor(m => m.Customer.BirthDate)
     </div>
     <div class="form-group form-vertmargin-1">
         @Html.LabelFor(m => m.Customer.MembershipTypeId, new { @class = "form-vertmargin-2" })
@@ -23,6 +25,7 @@
             new SelectList(Model.MembershipTypes, "Id", "Name"), 
             "Select membership type...", 
             new { @class = "form-select" })
+        @Html.ValidationMessageFor(m => m.Customer.MembershipTypeId)
     </div>
     <div class="form-group form-vertmargin-1">
         @Html.CheckBoxFor(m => m.Customer.IsSubscribedToNewsletter, new { @class = "form-check-input" })
