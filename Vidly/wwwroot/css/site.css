@@ -21,13 +21,12 @@ body {
 
 /*Custom adjustments for Bootstrap forms*/
 
-.form-vertmargin-1 {
+.form-group {
     margin-top: 20px;
     margin-bottom: 20px;
 }
 
-.form-vertmargin-2 {
-    margin-top: 10px;
+.form-label {
     margin-bottom: 10px;
 }
 

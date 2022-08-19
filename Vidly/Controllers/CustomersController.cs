@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Vidly.Models;
+using Vidly.Models.DataTransferObjects;
 using Vidly.ViewModels;
 using Vidly.Services;
 
@@ -36,12 +37,16 @@ namespace Vidly.Controllers
             Customer? customer = await _service.GetItemByIdAsync(id);
             if(customer == null) return NotFound();
 
-            CustomerFormViewModel viewModel = new() { Customer = customer, MembershipTypes = await _service.GetMembershipTypesAsync() };
+            CustomerFormViewModel viewModel = new() 
+            { 
+                Customer = CustomerDto.ConvertToDto(customer), 
+                MembershipTypes = await _service.GetMembershipTypesAsync() 
+            };
             return View("CustomerForm", viewModel);
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> Save(Customer customer)
+        public async Task<IActionResult> Save(CustomerDto customer)
         {      
             if(!ModelState.IsValid)
             {
@@ -49,8 +54,8 @@ namespace Vidly.Controllers
                 return View("CustomerForm", viewModel);
             }
 
-            if (customer.Id == 0) await _service.AddItemAsync(customer);
-            else await _service.UpdateItemAsync(customer);
+            if (customer.Id == 0) await _service.AddItemAsync(customer.ConvertToModel());
+            else await _service.UpdateItemAsync(customer.ConvertToModel());
             return RedirectToAction(nameof(Index));
         }
 

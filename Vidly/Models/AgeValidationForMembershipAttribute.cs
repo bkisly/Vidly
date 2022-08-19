@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Vidly.Models.DataTransferObjects;
 
 namespace Vidly.Models
 {
@@ -6,7 +7,7 @@ namespace Vidly.Models
     {
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
-            Customer customer = (Customer)validationContext.ObjectInstance;
+            CustomerDto customer = (CustomerDto)validationContext.ObjectInstance;
 
             if (customer is { MembershipTypeId: null or (byte?)MembershipTypeCode.Unknown or (byte?)MembershipTypeCode.PayAsYouGo })
                 return ValidationResult.Success;
