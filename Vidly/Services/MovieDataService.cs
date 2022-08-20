@@ -41,9 +41,9 @@ namespace Vidly.Services
             return await _context.Movies.Include(m => m.Genre).ToArrayAsync();
         }
 
-        public async Task UpdateItemAsync(Movie newMovieData)
+        public async Task UpdateItemAsync(int id, Movie newMovieData)
         {
-            Movie movieToUpdate = _context.Movies.Single(m => m.Id == newMovieData.Id);
+            Movie movieToUpdate = _context.Movies.Single(m => m.Id == id);
 
             movieToUpdate.Title = newMovieData.Title;
             movieToUpdate.ReleaseDate = newMovieData.ReleaseDate;

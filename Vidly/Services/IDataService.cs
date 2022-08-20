@@ -11,7 +11,7 @@ namespace Vidly.Services
     public interface IModifiableDataService<T> : IDataService<T>
     {
         public Task AddItemAsync(T item);
-        public Task UpdateItemAsync(T newItemData);
+        public Task UpdateItemAsync(int id, T newItemData);
         public Task DeleteItemAsync(int id);
     }
 

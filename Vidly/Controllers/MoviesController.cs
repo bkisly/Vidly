@@ -43,7 +43,7 @@ namespace Vidly.Controllers
             if(!ModelState.IsValid) return View("MovieForm", new MovieFormViewModel { Movie = movie, Genres = await _service.GetGenresAsync() });
 
             if (movie.Id == 0) await _service.AddItemAsync(movie.ConvertToModel());
-            else await _service.UpdateItemAsync(movie.ConvertToModel());
+            else await _service.UpdateItemAsync(movie.Id, movie.ConvertToModel());
 
             return RedirectToAction(nameof(Index));
         }

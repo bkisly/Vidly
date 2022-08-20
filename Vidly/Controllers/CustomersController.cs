@@ -55,7 +55,7 @@ namespace Vidly.Controllers
             }
 
             if (customer.Id == 0) await _service.AddItemAsync(customer.ConvertToModel());
-            else await _service.UpdateItemAsync(customer.ConvertToModel());
+            else await _service.UpdateItemAsync(customer.Id, customer.ConvertToModel());
             return RedirectToAction(nameof(Index));
         }
 

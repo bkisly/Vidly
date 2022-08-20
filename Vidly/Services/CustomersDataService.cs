@@ -40,9 +40,9 @@ namespace Vidly.Services
             return await _context.MembershipTypes.ToArrayAsync();
         }
 
-        public async Task UpdateItemAsync(Customer newCustomerData)
+        public async Task UpdateItemAsync(int id, Customer newCustomerData)
         {
-            Customer customerToUpdate = await _context.Customers.SingleAsync(c => c.Id == newCustomerData.Id);
+            Customer customerToUpdate = await _context.Customers.SingleAsync(c => c.Id == id);
 
             customerToUpdate.Name = newCustomerData.Name;
             customerToUpdate.BirthDate = newCustomerData.BirthDate;
