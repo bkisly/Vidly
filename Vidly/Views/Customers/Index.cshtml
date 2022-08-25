@@ -1,5 +1,4 @@
-﻿@model IEnumerable<Customer>
-@{
+﻿@{
     ViewData["Title"] = "Customers";
 }
 
@@ -21,7 +20,7 @@
 @section scripts {
     <script>
         $(document).ready(function () {
-            $("#customers").DataTable({
+            let dataTable = $("#customers").DataTable({
                 ajax: {
                     url: "/api/customers",
                     dataSrc: ""
@@ -52,7 +51,7 @@
                         url: "api/customers/" + deleteButton.attr("data-customer-id"),
                         method: "DELETE",
                         success: function () {
-                            window.location.reload();
+                            dataTable.row(deleteButton.parents("tr")).remove().draw();
                         }
                     });
                 }

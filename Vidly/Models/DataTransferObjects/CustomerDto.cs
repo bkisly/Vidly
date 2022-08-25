@@ -10,7 +10,7 @@ namespace Vidly.Models.DataTransferObjects
         [StringLength(255)] public string Name { get; set; } = string.Empty;
         [Display(Name = "Date of birth"), AgeValidationForMembership] public DateTime? BirthDate { get; set; }
         [Display(Name = "Subscribed to newsletter?")] public bool IsSubscribedToNewsletter { get; set; }
-        public MembershipTypeDto? MebershipType { get; set; }
+        public MembershipTypeDto? MembershipType { get; set; }
         [Required(ErrorMessage = "Membership type is required."), Display(Name = "Membership type")] public byte? MembershipTypeId { get; set; }
 
         public Customer ConvertToModel()
@@ -34,7 +34,7 @@ namespace Vidly.Models.DataTransferObjects
                 BirthDate = customer.BirthDate,
                 IsSubscribedToNewsletter = customer.IsSubscribedToNewsletter,
                 MembershipTypeId = customer.MembershipTypeId,
-                MebershipType = MembershipTypeDto.ConvertToDto(customer.MembershipType)
+                MembershipType = MembershipTypeDto.ConvertToDto(customer.MembershipType)
             };
         }
     }

@@ -15,9 +15,9 @@ namespace Vidly.Controllers
             _service = service;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _service.GetItemsAsync());
+            return View();
         }
 
         public async Task<IActionResult> Details(int id)
