@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Vidly.Models;
 using Vidly.Models.DataTransferObjects;
 using Vidly.ViewModels;
