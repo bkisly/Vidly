@@ -3,14 +3,12 @@
 }
 
 <h2>Movies</h2>
-@Html.ActionLink("New movie", "New", new { }, new { @class = "btn btn-primary form-group" })
 
 <table id="movies" class="table table-bordered table-hover">
     <thead>
         <tr>
             <th>Title</th>
             <th>Genre</th>
-            <th>Delete</th>
         </tr>
     </thead>
     <tbody>
@@ -19,5 +17,5 @@
 
 @section scripts 
 {
-    <script src="~/js/moviesApiHandler.js"></script>
+    <script src="~/js/moviesReadOnly.js"></script>
 }

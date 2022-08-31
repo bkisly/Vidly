@@ -4,6 +4,7 @@ using Vidly.Models;
 using Vidly.Models.DataTransferObjects;
 using Vidly.ViewModels;
 using Vidly.Services;
+using Vidly.Helpers;
 
 namespace Vidly.Controllers
 {
@@ -18,7 +19,10 @@ namespace Vidly.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            if (User.IsInRole(Constants.StoreManagerRoleName))
+                return View("CustomersList");
+
+            return View("CustomersReadOnlyList");
         }
 
         public async Task<IActionResult> Details(int id = 1)
@@ -27,12 +31,14 @@ namespace Vidly.Controllers
             return customer != null ? View(customer) : NotFound();
         }
 
+        [Authorize(Roles = Constants.StoreManagerRoleName)]
         public async Task<IActionResult> New()
         {
             var membershipTypes = await _service.GetMembershipTypesAsync();
             return View("CustomerForm", new CustomerFormViewModel { MembershipTypes = membershipTypes });
         }
 
+        [Authorize(Roles = Constants.StoreManagerRoleName)]
         public async Task<IActionResult> Edit(int id)
         {
             Customer? customer = await _service.GetItemByIdAsync(id);
@@ -46,7 +52,7 @@ namespace Vidly.Controllers
             return View("CustomerForm", viewModel);
         }
 
-        [HttpPost, ValidateAntiForgeryToken]
+        [HttpPost, ValidateAntiForgeryToken, Authorize(Roles = Constants.StoreManagerRoleName)]
         public async Task<IActionResult> Save(CustomerDto customer)
         {      
             if(!ModelState.IsValid)
@@ -60,7 +66,7 @@ namespace Vidly.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        [HttpDelete]
+        [HttpDelete, Authorize(Roles = Constants.StoreManagerRoleName)]
         public async Task<IActionResult> Delete(int id)
         {
             await _service.DeleteItemAsync(id);

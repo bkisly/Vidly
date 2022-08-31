@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Vidly.Models.DataTransferObjects;
 using Vidly.Services;
+using Vidly.Helpers;
 using System.Diagnostics;
 
 namespace Vidly.Controllers.Api
@@ -32,7 +34,7 @@ namespace Vidly.Controllers.Api
             return customer != null ? CustomerDto.ConvertToDto(customer) : NotFound();
         }
 
-        [HttpPost]
+        [HttpPost, Authorize(Roles = Constants.StoreManagerRoleName)]
         public async Task<ActionResult<CustomerDto>> PostCustomer(CustomerDto customerDto)
         {
             if (!ModelState.IsValid) return BadRequest();
@@ -43,7 +45,7 @@ namespace Vidly.Controllers.Api
             return CreatedAtAction(nameof(PostCustomer), new { id = customer.Id }, CustomerDto.ConvertToDto(customer));
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id}"), Authorize(Roles = Constants.StoreManagerRoleName)]
         public async Task<IActionResult> PutCustomer(int id, CustomerDto customerDto)
         {
             if (!ModelState.IsValid) return BadRequest();
@@ -60,7 +62,7 @@ namespace Vidly.Controllers.Api
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize(Roles = Constants.StoreManagerRoleName)]
         public async Task<IActionResult> DeleteCustomer(int id)
         {
             try

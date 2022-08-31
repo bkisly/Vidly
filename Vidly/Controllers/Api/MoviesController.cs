@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Vidly.Services;
 using Vidly.Models.DataTransferObjects;
+using Vidly.Helpers;
 
 namespace Vidly.Controllers.Api
 {
@@ -30,7 +32,7 @@ namespace Vidly.Controllers.Api
             return customer != null ? Ok(MovieDto.ConvertToDto(customer)) : NotFound();
         }
 
-        [HttpPost]
+        [HttpPost, Authorize(Roles = Constants.StoreManagerRoleName)]
         public async Task<ActionResult<MovieDto>> PostMovie(MovieDto movieDto)
         {
             if (!ModelState.IsValid) return BadRequest();
@@ -40,7 +42,7 @@ namespace Vidly.Controllers.Api
             return CreatedAtAction(nameof(PostMovie), new { id = movie.Id }, MovieDto.ConvertToDto(movie));
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id}"), Authorize(Roles = Constants.StoreManagerRoleName)]
         public async Task<IActionResult> PutMovie(int id, MovieDto movieDto)
         {
             if (!ModelState.IsValid) return BadRequest();
@@ -57,7 +59,7 @@ namespace Vidly.Controllers.Api
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize(Roles = Constants.StoreManagerRoleName)]
         public async Task<IActionResult> DeleteMovie(int id)
         {
             try

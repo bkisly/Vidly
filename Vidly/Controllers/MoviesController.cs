@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Vidly.Helpers;
 using Vidly.Models;
 using Vidly.Models.DataTransferObjects;
 using Vidly.Services;
@@ -17,7 +19,10 @@ namespace Vidly.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            if (User.IsInRole(Constants.StoreManagerRoleName))
+                return View("MoviesList");
+
+            return View("MoviesReadOnlyList");
         }
 
         public async Task<IActionResult> Details(int id)
@@ -26,18 +31,20 @@ namespace Vidly.Controllers
             return movie != null ? View(movie) : NotFound();
         }
 
+        [Authorize(Roles = Constants.StoreManagerRoleName)]
         public async Task<IActionResult> New()
         {
             return View("MovieForm", new MovieFormViewModel { Genres = await _service.GetGenresAsync() });
         }
 
+        [Authorize(Roles = Constants.StoreManagerRoleName)]
         public async Task<IActionResult> Edit(int id)
         {
             var movie = await _service.GetItemByIdAsync(id);
             return movie != null ? View("MovieForm", new MovieFormViewModel { Movie = MovieDto.ConvertToDto(movie), Genres = await _service.GetGenresAsync() }) : NotFound();
         }
 
-        [HttpPost, ValidateAntiForgeryToken]
+        [HttpPost, ValidateAntiForgeryToken, Authorize(Roles = Constants.StoreManagerRoleName)]
         public async Task<IActionResult> Save(MovieDto movie)
         {
             if(!ModelState.IsValid) return View("MovieForm", new MovieFormViewModel { Movie = movie, Genres = await _service.GetGenresAsync() });
@@ -48,7 +55,7 @@ namespace Vidly.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        [HttpDelete]
+        [HttpDelete, Authorize(Roles = Constants.StoreManagerRoleName)]
         public async Task<IActionResult> Delete(int id)
         {
             await _service.DeleteItemAsync(id);
