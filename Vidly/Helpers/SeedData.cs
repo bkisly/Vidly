@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Vidly.Areas.Identity;
 
 namespace Vidly.Helpers
 {
@@ -12,16 +13,17 @@ namespace Vidly.Helpers
 
         private static async Task<string> EnsureUser(IServiceProvider serviceProvider, string userPassword, string userName)
         {
-            var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
+            var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
             var user = await userManager.FindByNameAsync(userName);
 
             if(user == null)
             {
-                user = new IdentityUser
+                user = new ApplicationUser
                 {
                     UserName = userName,
                     Email = userName,
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    DrivingLicense = "12345"
                 };
 
                 await userManager.CreateAsync(user, userPassword);
@@ -37,7 +39,7 @@ namespace Vidly.Helpers
             if (!await roleManager.RoleExistsAsync(roleName))
                 await roleManager.CreateAsync(new IdentityRole(roleName));
 
-            var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
+            var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
             var user = await userManager.FindByIdAsync(userId);
 
             if (user == null) throw new Exception("User's password is not strong enough.");
