@@ -14,6 +14,12 @@ namespace Vidly.Services
 
         public async Task AddItemAsync(Rental item)
         {
+            var movie = item.Movie;
+
+            if (movie.NumberAvailable == 0)
+                throw new InvalidOperationException($"{movie.Title} is not available ");
+
+            movie.NumberAvailable--;
             await _context.AddAsync(item);
             await _context.SaveChangesAsync();
         }

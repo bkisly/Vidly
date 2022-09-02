@@ -9,6 +9,7 @@ namespace Vidly.Models
         public DateTime ReleaseDate { get; set; }
         public DateTime DateAdded { get; set; }
         [Range(1, 20)] public short NumberInStock { get; set; }
+        public short NumberAvailable { get; set; }
 
         public Genre Genre { get; set; } = null!;
         public byte GenreId { get; set; }
