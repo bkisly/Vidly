@@ -16,6 +16,7 @@ namespace Vidly.Services
         public async Task AddItemAsync(Movie item)
         {
             item.DateAdded = DateTime.Now;
+            item.NumberAvailable = item.NumberInStock;
             await _context.Movies.AddAsync(item);
             await _context.SaveChangesAsync();
         }
