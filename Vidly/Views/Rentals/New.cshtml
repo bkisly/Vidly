@@ -22,9 +22,9 @@
     <script>
         $(document).ready(function() {
             $("#customer").autocomplete({
-                source: "/api/customers",
+                source: "/api/customersnames",
                 select: function (event, ui) {
-                    alert("You have selected " + ui.item.value);
+                    console.log("You have selected " + ui.item.value);
                 }
             });
         });
