@@ -10,7 +10,7 @@
         <label>Customer</label>
     </div>     
     <div class="form-group form-floating">
-        <input type="text" class="form-control" value="" placeholder="Movie"/>
+        <input id="movie" type="text" class="form-control" value="" placeholder="Movie"/>
         <label>Movie</label>
     </div>
 
@@ -22,9 +22,16 @@
     <script>
         $(document).ready(function() {
             $("#customer").autocomplete({
-                source: "/api/customersnames",
+                source: "/api/names/customers",
                 select: function (event, ui) {
-                    console.log("You have selected " + ui.item.value);
+                    console.log("You have selected a customer named " + ui.item.value);
+                }
+            });
+
+            $("#movie").autocomplete({
+                source: "/api/names/movies",
+                select: function (event, ui) {
+                    console.log("You have selected a movie called " + ui.item.value);
                 }
             });
         });
