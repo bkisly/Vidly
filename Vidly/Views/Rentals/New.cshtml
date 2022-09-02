@@ -6,7 +6,7 @@
 
 <form>
     <div class="form-group form-floating">
-        <input type="text" class="form-control" value="" placeholder="Customer"/>
+        <input id="customer" type="text" class="form-control" value="" placeholder="Customer"/>
         <label>Customer</label>
     </div>     
     <div class="form-group form-floating">
@@ -16,3 +16,17 @@
 
     <button class="btn btn-primary">Submit</button>
 </form>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function() {
+            $("#customer").autocomplete({
+                source: "/api/customers",
+                select: function (event, ui) {
+                    alert("You have selected " + ui.item.value);
+                }
+            });
+        });
+    </script>
+}
