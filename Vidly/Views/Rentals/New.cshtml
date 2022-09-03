@@ -8,13 +8,13 @@
     <div class="form-group">
         <label>Customer</label>
         <div class="tt-container">
-            <input id="customer" type="text" class="form-control" value="" placeholder="Customer"/>
+            <input id="customer" name="customer" required data-rule-validCustomer="true" type="text" class="form-control" value="" placeholder="Customer"/>
         </div>
     </div>     
     <div class="form-group">
         <label>Movie</label>
         <div class="tt-container">
-            <input id="movie" type="text" class="form-control" value="" placeholder="Movie"/>
+            <input id="movie" name="movie" data-rule-validMovie="true" type="text" class="form-control" value="" placeholder="Movie"/>
         </div>
     </div>
 
@@ -29,6 +29,8 @@
 
 @section scripts
 {
+    @await Html.PartialAsync("_ValidationScriptsPartial");
+
     <script>
         $(document).ready(function() {
             let vm = {
@@ -87,22 +89,39 @@
 
             // Submitting the form
 
-            $("#new-rental").submit(function(e) {
-                e.preventDefault();
-                console.log(vm);
+            $.validator.addMethod("validCustomer", function () {
+                return vm.customerId && vm.customerId != 0;
+            }, "Select a valid customer,");
 
-                $.ajax({
-                    url: "/api/rentals",
-                    dataType: "json",
-                    contentType: "application/json",
-                    method: "POST",
-                    data: JSON.stringify(vm)
-                }).done(function () {
-                    toastr.success("Rentals successfully recorded!");
-                }).fail(function () {
-                    toastr.error("Something unexpected happened.");
-                });
-            })
+            $.validator.addMethod("validMovie", function () {
+                return vm.movieIds.length > 0;
+            }, "Add at least 1 movie.");
+
+            let validator = $("#new-rental").validate({
+                submitHandler: function() {
+                    $.ajax({
+                        url: "/api/rentals",
+                        dataType: "json",
+                        contentType: "application/json",
+                        method: "POST",
+                        data: JSON.stringify(vm)
+                    }).done(function () {
+                        toastr.success("Rentals successfully recorded!");
+
+                        $("#customer").typeahead("val", "");
+                        $("#movie").typeahead("val", "");
+                        $("#movies").empty();
+                        vm = {
+                            movieIds = [];
+                        }
+                        validator.resetForm();
+                    }).fail(function () {
+                        toastr.error("Something unexpected happened.");
+                    });
+
+                    return false;
+                }
+            });
         });
     </script>
 }
