@@ -21,9 +21,13 @@ namespace Vidly.Controllers.Api
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CustomerDto>>> GetCustomers()
+        public async Task<ActionResult<IEnumerable<CustomerDto>>> GetCustomers([FromQuery]string? query = null)
         {
             var customers = await _service.GetItemsAsync();
+
+            if (!string.IsNullOrWhiteSpace(query))
+                customers = customers.Where(c => c.Name.Contains(query, StringComparison.OrdinalIgnoreCase)).ToArray();
+
             return customers.Select(c => CustomerDto.ConvertToDto(c)).ToArray();
         }
 

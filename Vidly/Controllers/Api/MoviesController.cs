@@ -19,17 +19,21 @@ namespace Vidly.Controllers.Api
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MovieDto>>> GetMovies()
+        public async Task<ActionResult<IEnumerable<MovieDto>>> GetMovies([FromQuery] string? query)
         {
-            var customers = await _service.GetItemsAsync();
-            return Ok(customers.Select(m => MovieDto.ConvertToDto(m)).ToList());
+            var movies = (await _service.GetItemsAsync()).Where(m => m.NumberAvailable > 0);
+
+            if (!string.IsNullOrWhiteSpace(query))
+                movies = movies.Where(m => m.Title.Contains(query, StringComparison.OrdinalIgnoreCase)).ToArray();
+
+            return Ok(movies.Select(m => MovieDto.ConvertToDto(m)).ToList());
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<MovieDto>> GetMovie(int id)
         {
-            var customer = await _service.GetItemByIdAsync(id);
-            return customer != null ? Ok(MovieDto.ConvertToDto(customer)) : NotFound();
+            var movie = await _service.GetItemByIdAsync(id);
+            return movie != null ? Ok(MovieDto.ConvertToDto(movie)) : NotFound();
         }
 
         [HttpPost, Authorize(Roles = Constants.StoreManagerRoleName)]
